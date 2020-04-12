@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -22,6 +23,18 @@ public class RestConsumeController {
 
     @Autowired
     private Traverson traverson;
+
+    @GetMapping("/traverson/add")
+    /**
+     * traverson 与 restTemplate 结合提交数据形式
+     */
+    public Map addByRestTemplateAndTraverson(){
+        String addUrl = traverson.follow("country").asLink().getHref();
+        Map<String,Object> data = new HashMap<>();
+        data.put("","");
+        Map result = restTemplate.postForObject(addUrl,data,Map.class);
+        return result;
+    }
 
     @GetMapping("/traversion")
     @ResponseBody
